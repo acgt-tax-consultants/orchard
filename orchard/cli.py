@@ -26,3 +26,10 @@ def init(filename):
 @click.argument('task')
 def launch(filename, task):
     commands.launch(filename, task)
+
+
+@orchard.command()
+@click.argument('config_file')
+@click.option('-o', '--output', default='out.py')
+def build(config_file, output):
+    commands.build(config_file, output)
