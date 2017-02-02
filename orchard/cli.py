@@ -6,6 +6,23 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import pkg_resources
+import click
+from orchard import commands
 
-__version__ = pkg_resources.get_distribution('orchard').version
+
+@click.group()
+def orchard():
+    pass
+
+
+@orchard.command()
+@click.argument('filename')
+def init(filename):
+    commands.init(filename)
+
+
+@orchard.command()
+@click.argument('filename')
+@click.argument('task')
+def launch(filename, task):
+    commands.launch(filename, task)

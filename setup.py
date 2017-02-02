@@ -16,5 +16,10 @@ setup(
     version='0.0.1',
     long_description=long_description,
     packages=find_packages(),
-    install_requires=['luigi', 'sciluigi', 'jinja2']
+    package_data={'orchard': ['data/*']},
+    install_requires=['luigi', 'sciluigi', 'jinja2', 'click'],
+    entry_points='''
+        [console_scripts]
+        orchard=orchard.cli:orchard
+    '''
 )

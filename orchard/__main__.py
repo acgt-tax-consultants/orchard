@@ -6,6 +6,8 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import pkg_resources
+import orchard.cli
 
-__version__ = pkg_resources.get_distribution('orchard').version
+
+if __name__ == '__main__':
+    orchard.cli.orchard()
