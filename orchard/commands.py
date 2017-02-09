@@ -9,6 +9,7 @@
 import os
 import pkg_resources
 import subprocess
+import shutil
 
 import click
 import yaml
@@ -22,8 +23,18 @@ def launch(filename, task):
 
 
 def init(filename):
+    if not (filename.endswith('.yml') or filename.endswith('.yaml')):
+        filename += '.yml'
+
+    shutil.copy(os.path.join(TEMPLATES, 'config.template'), filename)
+
+    click.secho('Successfully wrote configuration file to %s' % filename,
+                fg='green')
+
+
+def build(config_file, output):
     # Load example config yaml
-    with open(os.path.join(TEMPLATES, 'config.template')) as fh:
+    with open(config_file) as fh:
         context = yaml.load(fh.read())
 
     # Prepare and render against luigi template
@@ -31,9 +42,11 @@ def init(filename):
     template = env.get_template('luigi.template')
     rendered_content = template.render(**context)
 
+    if not output.endswith('.py'):
+        output += '.py'
     # Write out luigi code
-    with open(filename, 'w') as fh:
+    with open(output, 'w') as fh:
         fh.write(rendered_content)
 
     # Alert user of completion
-    click.secho('Successfully wrote luigi file to %s' % filename, fg='green')
+    click.secho('Successfully wrote luigi file to %s' % output, fg='green')
