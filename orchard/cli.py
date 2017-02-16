@@ -39,7 +39,7 @@ def init(filename):
 @click.argument('filename')
 @click.argument('task')
 def launch(filename, task):
-    subprocess.run(['luigi', '--module', filename, task])
+    subprocess.run(['python', filename, task])
 
 
 @orchard.command()
