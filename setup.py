@@ -17,7 +17,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     package_data={'orchard': ['data/*']},
-    install_requires=['luigi', 'sciluigi', 'jinja2', 'click', 'pyyaml'],
+    install_requires=['luigi', 'jinja2', 'click', 'pyyaml'],
     entry_points='''
         [console_scripts]
         orchard=orchard.cli:orchard
