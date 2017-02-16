@@ -6,8 +6,16 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
+import os
+import pkg_resources
+import subprocess
+import shutil
+
 import click
-from orchard import commands
+import yaml
+import jinja2
+
+TEMPLATES = pkg_resources.resource_filename('orchard', 'data')
 
 
 @click.group()
@@ -18,18 +26,40 @@ def orchard():
 @orchard.command()
 @click.argument('filename')
 def init(filename):
-    commands.init(filename)
+    if not (filename.endswith('.yml') or filename.endswith('.yaml')):
+        filename += '.yml'
+
+    shutil.copy(os.path.join(TEMPLATES, 'config.template'), filename)
+
+    click.secho('Successfully wrote configuration file to %s' % filename,
+                fg='green')
 
 
 @orchard.command()
 @click.argument('filename')
 @click.argument('task')
 def launch(filename, task):
-    commands.launch(filename, task)
+    subprocess.run(['luigi', '--module', filename, task])
 
 
 @orchard.command()
 @click.argument('config_file')
 @click.option('-o', '--output', default='out.py')
 def build(config_file, output):
-    commands.build(config_file, output)
+    # Load example config yaml
+    with open(config_file) as fh:
+        context = yaml.load(fh.read())
+
+    # Prepare and render against luigi template
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES))
+    template = env.get_template('luigi.template')
+    rendered_content = template.render(**context)
+
+    if not output.endswith('.py'):
+        output += '.py'
+    # Write out luigi code
+    with open(output, 'w') as fh:
+        fh.write(rendered_content)
+
+    # Alert user of completion
+    click.secho('Successfully wrote luigi file to %s' % output, fg='green')
