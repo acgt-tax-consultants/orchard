@@ -22,3 +22,19 @@ $ git clone https://github.com/(your_username)/orchard.git
 $ cd orchard
 $ pip install -e .
 ```
+
+---
+
+How to run sample pipeline
+
+In one tab (as `luigid` blocks, and `luigid --background` is a pain to kill)
+```bash
+$ luigid
+```
+
+In a separate tab
+```bash
+$ cd example
+$ orchard build test.yml -o out.py
+$ orchard launch out.py ModuleThree
+```
