@@ -1,18 +1,17 @@
 import luigi
+from luigi.contrib.external_program import ExternalProgramTask
 
 {% for task in tasks %}
-class {{ task.name }}(luigi.Task):
+class {{ task.name }}(ExternalProgramTask):
 
 {%- if task.requires %}
     def requires(self):
         return {{ task.requires }}()
 {%- endif %}
 
-{%- if task.run %}
-    def run(self):
-{%- for line in task.run.split('\n') %}
-        {{ line }}
-{%- endfor %}
+{%- if task.program_args %}
+    def program_args(self):
+        return {{ task.program_args }}
 {%- endif %}
 
 {%- if task.output %}
