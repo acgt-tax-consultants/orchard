@@ -29,7 +29,7 @@ def init(filename):
     if not (filename.endswith('.yml') or filename.endswith('.yaml')):
         filename += '.yml'
 
-    shutil.copy(os.path.join(TEMPLATES, 'config.template'), filename)
+    shutil.copy(os.path.join(TEMPLATES, 'config.yml.j2'), filename)
 
     click.secho('Successfully wrote configuration file to %s' % filename,
                 fg='green')
@@ -52,7 +52,7 @@ def build(config_file, output):
 
     # Prepare and render against luigi template
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATES))
-    template = env.get_template('luigi.template')
+    template = env.get_template('luigi.py.j2')
     rendered_content = template.render(**context)
 
     if not output.endswith('.py'):
