@@ -6,8 +6,8 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import orchard.cli
+from .cli import orchard
 
 
 if __name__ == '__main__':
-    orchard.cli.orchard()
+    orchard()
