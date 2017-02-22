@@ -1,5 +1,5 @@
 # orchard
-A pipeline manager for taxonomic classification and phylogenetic tree building
+A pipeline creation framework for simplifying reruns and branching
 
 [![Build Status](https://travis-ci.org/acgt-tax-consultants/orchard.svg?branch=master)](https://travis-ci.org/acgt-tax-consultants/orchard)
 
@@ -21,4 +21,20 @@ Installation (Development mode [after setting up your environment](https://githu
 $ git clone https://github.com/(your_username)/orchard.git
 $ cd orchard
 $ pip install -e .
+```
+
+---
+
+How to run sample pipeline
+
+In one tab (as `luigid` blocks, and `luigid --background` is a pain to kill)
+```bash
+$ luigid
+```
+
+In a separate tab
+```bash
+$ cd example
+$ orchard build test.yml -o out.py
+$ orchard launch out.py ModuleThree
 ```
