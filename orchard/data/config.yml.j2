@@ -1,15 +1,19 @@
-tasks:
-- name: ExampleTask
-  run: |
-    with self.output().open('w') as fh:
-        for i in range(10):
-            fh.write('testing\n')
-  output: data.txt
-- name: MyTask
-  requires: ExampleTask
-  run: |
-    with self.input().open('r') as fh:
-        output = fh.readlines()
-    with self.input().open('w') as fh:
-        for out in output:
-            fh.write('123%s456\n' % out[:-1])
+modules:
+- name: ModuleOne
+  arguments:
+  - infile: in.txt
+  - outfile: out.txt
+  - digit: 5
+- name: ModuleTwo
+  arguments:
+  - infile: in.txt
+  - outfile: out2.txt
+  - digit: 5
+  optionals:
+  - forward:
+  - reverse:
+- name: ModuleThree
+  arguments:
+  - infile: in.txt
+  - outfile: out3.txt
+  - digit: 5
