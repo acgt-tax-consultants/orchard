@@ -2,24 +2,28 @@ modules:
 - name: ModuleOne
   arguments:
   - name: infile
-    value: in.txt
+    isBranch: true
   - name: outfile
-    value: out.txt
+    isBranch: false
   - name: digit
-    value: 5
+    isBranch: true
 - name: ModuleTwo
+  dependencies:
+    - ModuleOne
   arguments:
   - name: infile
-    value: in.txt
+    isBranch: true
   - name: outfile
-    value: out2.txt
+    isBranch: false
   - name: digit
-    value: 5
+    isBranch: true
 - name: ModuleThree
+  dependencies:
+    - ModuleTwo
   arguments:
   - name: infile
-    value: in.txt
+    isBranch: true
   - name: outfile
-    value: out3.txt
+    isBranch: false
   - name: digit
-    value: 5
+    isBranch: true
