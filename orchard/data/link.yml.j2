@@ -2,28 +2,39 @@ modules:
 - name: ModuleOne
   arguments:
   - name: infile
-    isBranch: true
   - name: outfile
+    command: --out
     isBranch: false
   - name: digit
-    isBranch: true
+    command: -d
 - name: ModuleTwo
   dependencies:
     - ModuleOne
   arguments:
   - name: infile
-    isBranch: true
   - name: outfile
+    command: --out
     isBranch: false
   - name: digit
-    isBranch: true
+    command: -d
+  - name: reverse
+    command: --reverse
+    optional: true
+    isFlag: true
+  - name: forward
+    command: --forward
+    optional: true
+    isFlag: true
+  exclusive:
+  - forward
+  - reverse
 - name: ModuleThree
   dependencies:
     - ModuleTwo
   arguments:
   - name: infile
-    isBranch: true
   - name: outfile
+    command: --out
     isBranch: false
   - name: digit
-    isBranch: true
+    command: -d
