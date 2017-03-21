@@ -1,0 +1,16 @@
+modules:
+- arguments:
+  - infile: REPLACE_VALUE
+  - outfile: REPLACE_VALUE
+  - digit: REPLACE_VALUE
+  name: ModuleOne
+- arguments:
+  - infile: REPLACE_VALUE
+  - outfile: REPLACE_VALUE
+  - digit: REPLACE_VALUE
+  name: ModuleTwo
+- arguments:
+  - infile: REPLACE_VALUE
+  - outfile: REPLACE_VALUE
+  - digit: REPLACE_VALUE
+  name: ModuleThree
