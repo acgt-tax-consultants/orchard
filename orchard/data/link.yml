@@ -17,13 +17,12 @@ modules:
     isBranch: false
   - name: digit
     command: -d
+  optionals:
   - name: forward
     command: --forward
-    optional: true
     isFlag: true
   - name: reverse
     command: --reverse
-    optional: true
     isFlag: true
   exclusive:
   - forward

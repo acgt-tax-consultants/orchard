@@ -29,7 +29,7 @@ def init(filename):
     if not (filename.endswith('.yml') or filename.endswith('.yaml')):
         filename += '.yml'
 
-    shutil.copy(os.path.join(TEMPLATES, 'config.yml.j2'), filename)
+    shutil.copy(os.path.join(TEMPLATES, 'config.yml'), filename)
 
     click.secho('Successfully wrote configuration file to %s' % filename,
                 fg='green')

@@ -1,0 +1,19 @@
+modules:
+- name: ModuleOne
+  arguments:
+  - infile: 
+  - outfile: 
+  - digit: 
+- name: ModuleTwo
+  arguments:
+  - infile: 
+  - outfile: 
+  - digit: 
+  optionals:
+  - forward:
+  - reverse:
+- name: ModuleThree
+  arguments:
+  - infile: 
+  - outfile: 
+  - digit: 
