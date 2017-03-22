@@ -26,12 +26,6 @@ class TestOrchard(unittest.TestCase):
             self.assertIn('Successfully', result.output)
             self.assertTrue(os.path.exists('test.yml'))
 
-            result = self.runner.invoke(orchard, ['build', 'test.yml'])
-
-            self.assertEqual(result.exit_code, 0)
-            self.assertIn('Successfully', result.output)
-            self.assertTrue(os.path.exists('out.py'))
-
 
 if __name__ == '__main__':
     unittest.main()
