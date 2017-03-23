@@ -37,12 +37,19 @@ def validate(link_file_path, config_file_path):
 
     # Simplify both the link and the config files then compare
     simplify(link_file_path, "linkTest.yaml")
-    simplify(config_file_path, "configTest.yaml")
+    error_checking = simplify(config_file_path, "configTest.yaml")
+    if (error_checking):
+        if (error_checking == 1):
+            print("User failed to provide input arguments")
+        elif (error_checking == 2):
+            print("User failed to provide exclusive arguments")
+        sys.exit()
 
     print("Comparing files")
     sameFile = filecmp.cmp('linkTest.yaml', 'configTest.yaml')
-    os.remove("linkTest.yaml")
-    os.remove("configTest.yaml")
+    # Delete files after comparison
+    # os.remove("linkTest.yaml")
+    # os.remove("configTest.yaml")
     if (sameFile):
         print("Files have passed validation")
         return 0
@@ -71,18 +78,24 @@ def simplify(link_file_path, output_file_name):
             if ('arguments' in modules):
                 for arguments in modules['arguments']:
                     try:
-                        if (arguments['infile']):
+                        if (not arguments['infile'] is None):
                             arguments['infile'] = None
+                        else:
+                            return 1
                     except KeyError:
                         pass
                     try:
-                        if (arguments['outfile']):
+                        if (not arguments['outfile'] is None):
                             arguments['outfile'] = None
+                        else:
+                            return 1
                     except KeyError:
                         pass
                     try:
-                        if (arguments['digit']):
+                        if (not arguments['digit'] is None):
                             arguments['digit'] = None
+                        else:
+                            return 1
                     except KeyError:
                         pass
                     try:
@@ -104,6 +117,35 @@ def simplify(link_file_path, output_file_name):
                         pass
                     try:
                         del arguments['isFlag']
+                    except KeyError:
+                        pass
+            if ('optionals' in modules):
+                for optionals in modules['optionals']:
+                    try:
+                        optionals[optionals['name']] = None
+                        optionals.pop('name')
+                    except KeyError:
+                        pass
+                    try:
+                        del optionals['isFlag']
+                    except KeyError:
+                        pass
+                    try:
+                        del optionals['command']
+                    except KeyError:
+                        pass
+                    try:
+                        if (not optionals['forward'] is None):
+                            optionals['forward'] = None
+                        else:
+                            return 2
+                    except KeyError:
+                        pass
+                    try:
+                        if (not optionals['reverse'] is None):
+                            optionals['reverse'] = None
+                        else:
+                            return 2
                     except KeyError:
                         pass
     yaml.SafeDumper.add_representer(
