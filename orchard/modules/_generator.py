@@ -12,6 +12,7 @@
 # ----------------------------------------------------------------------------
 
 import yaml
+import sys
 
 
 def generate_luigi(inConfig, inLink):
@@ -26,8 +27,8 @@ def generate_luigi(inConfig, inLink):
     linkModules = linkData['modules']
 
     fh.write('import luigi\n')
-    fh.write('from luigi.contrib.external_program,'
-             'import ExternalProgramTask\n')
+    fh.write('from luigi.contrib.external_program'
+             ' import ExternalProgramTask\n')
     fh.write('\n\n')
 
     modules = data['modules']
@@ -46,15 +47,16 @@ def generate_luigi(inConfig, inLink):
 
         fh.write('    def program_args(self):\n')
         fh.write('        return [')
+        fh.write('\'./' + currentModuleName + '\'')
 
-        firstArg = True
+        # firstArg = True
         for argument in arguments:
             for key in argument:
-                if firstArg:
-                    fh.write('\'' + str(argument[str(key)]) + '\'')
-                    firstArg = False
-                else:
-                    fh.write(', \'' + str(argument[str(key)]) + '\'')
+                # if firstArg:
+                #     fh.write('\'' + str(argument[str(key)]) + '\'')
+                #     firstArg = False
+                # else:
+                fh.write(', \'' + str(argument[str(key)]) + '\'')
 
         fh.write("]\n")
         fh.write("\n")
@@ -69,3 +71,11 @@ def generate_luigi(inConfig, inLink):
     fh.write("if __name__ == '__main__':\n")
     fh.write("    luigi.run()\n")
     fh.close()
+
+
+def main(argv):
+    generate_luigi(argv[0], argv[1])
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:3])
