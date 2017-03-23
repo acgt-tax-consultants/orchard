@@ -68,6 +68,18 @@ def generate_config_file(link_file_path):
                         del arguments['isFlag']
                     except KeyError:
                         pass
+            if ('optionals' in modules):
+                for optionals in modules['optionals']:
+                    optionals[optionals['name']] = None
+                    optionals.pop('name')
+                    try:
+                        del optionals['isFlag']
+                    except KeyError:
+                        pass
+                    try:
+                        del optionals['command']
+                    except KeyError:
+                        pass
         yaml.SafeDumper.add_representer(
           type(None), lambda dumper,
           value: dumper.represent_scalar(
