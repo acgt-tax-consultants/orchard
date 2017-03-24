@@ -7,6 +7,13 @@ modules:
     isBranch: false
   - name: digit
     command: -d
+  - exclusive:
+    - name: required_exclusive_forward
+      command: --required_exclusive_forward
+      isFlag: true
+    - name: required_exclusive_reverse
+      command: --required_exclusive_reverse
+      isFlag: true
 - name: ModuleTwo
   dependencies:
     - ModuleOne
@@ -18,15 +25,15 @@ modules:
   - name: digit
     command: -d
   optionals:
-  - name: forward
-    command: --forward
-    isFlag: true
-  - name: reverse
-    command: --reverse
-    isFlag: true
-  exclusive:
-  - forward
-  - reverse
+  - name: optional_infile
+  - name: optional_outfile
+  - exclusive:
+    - name: optional_exclusive_forward
+      command: --optional_exclusive_forward
+      isFlag: true
+    - name: optional_exclusive_reverse
+      command: --optional_exclusive_reverse
+      isFlag: true
 - name: ModuleThree
   dependencies:
     - ModuleTwo

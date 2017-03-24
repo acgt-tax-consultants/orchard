@@ -1,19 +1,25 @@
 modules:
-- name: ModuleOne
-  arguments:
-  - infile: 
-  - outfile: 
-  - digit: 
-- name: ModuleTwo
-  arguments:
-  - infile: 
-  - outfile: 
-  - digit: 
+- arguments:
+  - infile:
+  - outfile:
+  - digit:
+  - exclusive:
+    - required_exclusive_forward:
+    - required_exclusive_reverse:
+  name: ModuleOne
+- arguments:
+  - infile:
+  - outfile:
+  - digit:
+  name: ModuleTwo
   optionals:
-  - forward:
-  - reverse:
-- name: ModuleThree
-  arguments:
-  - infile: 
-  - outfile: 
-  - digit: 
+  - optional_infile:
+  - optional_outfile:
+  - exclusive:
+    - optional_exclusive_forward:
+    - optional_exclusive_reverse:
+- arguments:
+  - infile:
+  - outfile:
+  - digit:
+  name: ModuleThree

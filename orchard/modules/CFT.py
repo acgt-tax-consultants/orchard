@@ -19,20 +19,36 @@ def generate_config_file(link_file_path, output_file_name="config.yaml"):
             raise RuntimeError('The link file is not a valid yaml format.')
 
     for modules in dictionary['modules']:
-        for item in ['dependencies', 'exclusive']:
+        for item in ['dependencies']:
             modules.pop(item, None)
 
         for arguments in modules.get('arguments', []):
-            arguments[arguments['name']] = None
-            arguments.pop('name')
+            if 'name' in arguments:
+                arguments[arguments['name']] = None
+                arguments.pop('name')
             for item in to_remove:
                 arguments.pop(item, None)
+            if 'exclusive' in arguments:
+                for exclusives in arguments.get('exclusive', []):
+                    for item in to_remove:
+                        exclusives.pop(item, None)
+                    if 'name' in exclusives:
+                        exclusives[exclusives['name']] = None
+                        exclusives.pop('name')
 
         for optionals in modules.get('optionals', []):
-            optionals[optionals['name']] = None
-            optionals.pop('name')
+            if 'name' in optionals:
+                optionals[optionals['name']] = None
+                optionals.pop('name')
             for item in to_remove:
                 optionals.pop(item, None)
+            if 'exclusive' in optionals:
+                for exclusives in optionals.get('exclusive', []):
+                    for item in to_remove:
+                        exclusives.pop(item, None)
+                    if 'name' in exclusives:
+                        exclusives[exclusives['name']] = None
+                        exclusives.pop('name')
 
     def _add_repr(dumper, value):
         return dumper.represent_scalar(u'tag:yaml.org,2002:null', '')

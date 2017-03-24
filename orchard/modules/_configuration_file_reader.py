@@ -11,57 +11,29 @@ import sys
 import os
 import yaml
 import filecmp
-
 from .CFT import generate_config_file
 
 
 def validate(link_file_path, config_file_path):
-    # TODO: All this validation already occurs through click, can be simplified
-    # Check that the link file exists
-    if (not os.path.isfile(link_file_path)):
-        print('The link file: ' + link_file_path +
-              ' ,does not exist.')
-        sys.exit()
-
-    # Check that the configuration file exists
-    if (not os.path.isfile(config_file_path)):
-        print('The configuration file: ' +
-              config_file_path + ', does not exist.')
-        sys.exit()
-
-    # Check that link file path has the correct extension
-    if (not link_file_path.split('.')[1] == 'yaml'):
-        print('The link file path has the wrong extension.')
-        print('\tExpected: \t.yaml')
-        print('\tFound: \t\t.' + link_file_path.split('.')[1])
-        sys.exit()
-
-    # Check that config file path has the correct extension
-    if (not config_file_path.split('.')[1] == 'yaml'):
-        print('The configuration file path has',
-              'the wrong extension.')
-        print('\tExpected: \t.yaml')
-        print('\tFound: \t\t.',
-              config_file_path.split('.')[1])
-        sys.exit()
-
-    print("The files exist and have proper extensions.")
-
     # Simplify both the link and the config files then compare
     generate_config_file(link_file_path, "linkTest.yaml")
     error_checking = simplify(config_file_path, "configTest.yaml")
     if (error_checking):
         if (error_checking == 1):
-            print("User failed to provide input arguments")
+            print("User failed to provide required input arguments")
         elif (error_checking == 2):
-            print("User failed to provide exclusive arguments")
+            print("User provided too many exclusive arguments")
+        elif (error_checking == 3):
+            print("User failed to provide a single exclusive argument")
         sys.exit()
+    else:
+        print("Configuration arguments were entered properly")
 
     print("Comparing files")
     sameFile = filecmp.cmp('linkTest.yaml', 'configTest.yaml')
     # Delete files after comparison
-    # os.remove("linkTest.yaml")
-    # os.remove("configTest.yaml")
+    os.remove("linkTest.yaml")
+    os.remove("configTest.yaml")
     if (sameFile):
         print("Files have passed validation")
         return 0
@@ -70,101 +42,54 @@ def validate(link_file_path, config_file_path):
         return 1
 
 
-def simplify(link_file_path, output_file_name):
-    with open(link_file_path) as fileHandle:
+def simplify(config_file_path, output_file_name):
+    to_ignore = ['exclusive', 'optionals']
+
+    with open(config_file_path) as fh:
         try:
-            dictionary = yaml.load(fileHandle, Loader=yaml.Loader)
+            dictionary = yaml.load(fh, Loader=yaml.Loader)
         except Exception as e:
-            raise RuntimeError("The link file is not in the correct format.")
+            raise RuntimeError("The config file is not in the correct format.")
 
-    dict_list = dictionary['modules']
-    for modules in dict_list:
-        try:
-            del modules['dependencies']
-        except KeyError:
-            pass
-        try:
-            del modules['exclusive']
-        except KeyError:
-            pass
-        if ('arguments' in modules):
-            for arguments in modules['arguments']:
-                # TODO: Remove example module dependencies infile, outfile,
-                # digit only exist in the fake modules. Make dynamic
-                try:
-                    if (not arguments['infile'] is None):
-                        arguments['infile'] = None
-                    else:
+    for modules in dictionary['modules']:
+        for arguments in modules.get('arguments', []):
+            for key in arguments:
+                if key not in to_ignore:
+                    if (arguments[key] is None):
                         return 1
-                except KeyError:
-                    pass
-                try:
-                    if (not arguments['outfile'] is None):
-                        arguments['outfile'] = None
                     else:
-                        return 1
-                except KeyError:
-                    pass
-                try:
-                    if (not arguments['digit'] is None):
-                        arguments['digit'] = None
-                    else:
-                        return 1
-                except KeyError:
-                    pass
-                try:
-                    arguments[arguments['name']] = None
-                    arguments.pop('name')
-                except KeyError:
-                    pass
-                try:
-                    del arguments['isBranch']
-                except KeyError:
-                    pass
-                try:
-                    del arguments['command']
-                except KeyError:
-                    pass
-                try:
-                    del arguments['optional']
-                except KeyError:
-                    pass
-                try:
-                    del arguments['isFlag']
-                except KeyError:
-                    pass
-        if ('optionals' in modules):
-            for optionals in modules['optionals']:
-                try:
-                    optionals[optionals['name']] = None
-                    optionals.pop('name')
-                except KeyError:
-                    pass
-                try:
-                    del optionals['isFlag']
-                except KeyError:
-                    pass
-                try:
-                    del optionals['command']
-                except KeyError:
-                    pass
+                        arguments[key] = None
 
-                # TODO: Remove example module dependencies forward, reverse
-                # only exist in the fake modules. Make dynamic
-                try:
-                    if (not optionals['forward'] is None):
-                        optionals['forward'] = None
-                    else:
-                        return 2
-                except KeyError:
-                    pass
-                try:
-                    if (not optionals['reverse'] is None):
-                        optionals['reverse'] = None
-                    else:
-                        return 2
-                except KeyError:
-                    pass
+            if 'exclusive' in arguments:
+                exclusivity_test = False
+                for exclusives in arguments.get('exclusive', []):
+                    for key in exclusives:
+                        if (exclusives[key] is None):
+                            pass
+                        elif (exclusivity_test):
+                            return 2
+                        else:
+                            exclusivity_test = True
+                            exclusives[key] = None
+                if (not exclusivity_test):
+                    return 3
+
+        for optionals in modules.get('optionals', []):
+            for key in optionals:
+                if key not in to_ignore:
+                    optionals[key] = None
+
+            if 'exclusive' in optionals:
+                exclusivity_test = False
+                for exclusives in optionals.get('exclusive', []):
+                    for key in exclusives:
+                        if (exclusives[key] is None):
+                            pass
+                        elif (exclusivity_test):
+                            return 2
+                        else:
+                            exclusivity_test = True
+                            exclusives[key] = None
 
     def _add_repr(dumper, value):
         return dumper.represent_scalar(u'tag:yaml.org,2002:null', '')
