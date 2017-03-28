@@ -1,10 +1,12 @@
 sudo: false
 language: python
 python:
-  - "3.5"
+  - "3.6"
 install:
-  - pip install flake8 nose
+  - pip install flake8 coveralls pytest-cov
   - pip install .
 script:
-  - nosetests
-  - flake8 orchard setup.py
+  - flake8
+  - py.test --cov=orchard
+after_success:
+  - coveralls

@@ -1,7 +1,7 @@
 <p align="center"><img src="images/logo.png"></p>
 <p align="center">A pipeline creation framework for simplifying reruns and branching</p>
 
-[![Build Status](https://travis-ci.org/acgt-tax-consultants/orchard.svg?branch=master)](https://travis-ci.org/acgt-tax-consultants/orchard)
+[![Build Status](https://travis-ci.org/acgt-tax-consultants/orchard.svg?branch=master)](https://travis-ci.org/acgt-tax-consultants/orchard) [![Coverage Status](https://coveralls.io/repos/github/acgt-tax-consultants/orchard/badge.svg?branch=master)](https://coveralls.io/github/acgt-tax-consultants/orchard?branch=master)
 
 
 ### Basic Luigi Commands
