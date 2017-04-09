@@ -1,0 +1,46 @@
+modules:
+- name: ModuleOne
+  arguments:
+  - name: infile
+  - name: outfile
+    command: --out
+    isBranch: true
+  - name: digit
+    command: -d
+  - exclusive:
+    - name: required_exclusive_forward
+      command: --required_exclusive_forward
+      isFlag: true
+    - name: required_exclusive_reverse
+      command: --required_exclusive_reverse
+      isFlag: true
+- name: ModuleTwo
+  dependencies:
+    - ModuleOne
+  arguments:
+  - name: infile
+  - name: outfile
+    command: --out
+    isBranch: true
+  - name: digit
+    command: -d
+  optionals:
+  - name: optional_infile
+  - name: optional_outfile
+  - exclusive:
+    - name: optional_exclusive_forward
+      command: --optional_exclusive_forward
+      isFlag: false
+    - name: optional_exclusive_reverse
+      command: --optional_exclusive_reverse
+      isFlag: true
+- name: ModuleThree
+  dependencies:
+    - ModuleTwo
+  arguments:
+  - name: infile
+  - name: outfile
+    command: --out
+    isBranch: false
+  - name: digit
+    command: -d

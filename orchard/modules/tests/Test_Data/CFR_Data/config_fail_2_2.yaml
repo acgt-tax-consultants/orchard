@@ -1,0 +1,25 @@
+modules:
+- arguments:
+  - infile: infile1.txt
+  - outfile: outfile1.txt
+  - digit: 1
+  - exclusive:
+    - required_exclusive_forward: True
+    - required_exclusive_reverse:
+  name: ModuleOne
+- arguments:
+  - infile:
+  - outfile:
+  - digit: 2
+  name: ModuleTwo
+  optionals:
+  - optional_infile: optional_infile3.txt
+  - optional_outfile: optional_outfile3.txt
+  - exclusive:
+    - optional_exclusive_forward: True
+    - optional_exclusive_reverse:
+- arguments:
+  - infile: infile3.txt
+  - outfile: outfile3.txt
+  - digit: 3
+  name: ModuleThree
