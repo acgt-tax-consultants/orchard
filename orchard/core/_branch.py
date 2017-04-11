@@ -34,7 +34,7 @@ def depth_level(link_file_data, module):
 def is_branching_arg(link_file_mod, argname):
     for arg in link_file_mod['arguments']:
         if arg['name'] == argname:
-            if 'isBranch' in arg and not arg['isBranch']:
+            if 'is_branch' in arg and not arg['is_branch']:
                 return False
             else:
                 return True
@@ -49,9 +49,9 @@ def is_branching_in_list(arglist, name):
         if 'exclusive' in arg:
             if not is_branching_in_list(arg['exclusive'], name):
                 return False
-        # Else just check for 'isBranch' appropriately
+        # Else just check for 'is_branch' appropriately
         if arg.get('name') == name:
-            if 'isBranch' in arg and not arg['isBranch']:
+            if 'is_branch' in arg and not arg['is_branch']:
                 return False
             else:
                 return True

@@ -3,8 +3,10 @@ branch = True
 omit =
     */tests*
     */__init__.py
+    */__main__.py
 
 [report]
 omit =
     */tests*
     */__init__.py
+    */__main__.py

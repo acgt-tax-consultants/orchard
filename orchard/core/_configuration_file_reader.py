@@ -8,32 +8,38 @@
 
 
 import os
-import yaml
+import tempfile
 import filecmp
-from .CFT import generate_config_file
+
+import yaml
+from ..file import LinkFile
 
 
 def validate(link_file_path, config_file_path):
     # Simplify both the link and the config files then compare
-    generate_config_file(link_file_path, "linkTest.yaml")
-    error_checking = simplify(config_file_path, "configTest.yaml")
-    if (error_checking == 1):
-        print("User failed to provide required input arguments")
-        return 1
-    elif (error_checking == 2):
-        print("User provided too many exclusive arguments")
-        return 1
-    elif (error_checking == 3):
-        print("User failed to provide a single exclusive argument")
-        return 1
-    else:
-        print("Configuration arguments were entered properly")
 
-    print("Comparing files")
-    sameFile = filecmp.cmp('linkTest.yaml', 'configTest.yaml')
+    with tempfile.TemporaryDirectory() as tmp:
+        link_path = os.path.join(tmp, 'link_test.yaml')
+        config_path = os.path.join(tmp, 'config_test.yaml')
+
+        LinkFile(link_file_path).template_config_file(link_path)
+        error_checking = simplify(config_file_path, config_path)
+        if (error_checking == 1):
+            print("User failed to provide required input arguments")
+            return 1
+        elif (error_checking == 2):
+            print("User provided too many exclusive arguments")
+            return 1
+        elif (error_checking == 3):
+            print("User failed to provide a single exclusive argument")
+            return 1
+        else:
+            print("Configuration arguments were entered properly")
+
+        print("Comparing files")
+        sameFile = filecmp.cmp(link_path, config_path)
     # Delete files after comparison
-    os.remove("linkTest.yaml")
-    os.remove("configTest.yaml")
+
     if (sameFile):
         print("Files have passed validation")
         return 0

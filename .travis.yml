@@ -3,7 +3,7 @@ language: python
 python:
   - "3.6"
 install:
-  - pip install flake8 coveralls pytest-cov
+  - pip install flake8 coveralls pytest pytest-cov
   - pip install .
 script:
   - flake8

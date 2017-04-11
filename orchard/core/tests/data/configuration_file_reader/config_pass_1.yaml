@@ -4,7 +4,7 @@ modules:
   - outfile: outfile1.txt
   - digit: 1
   - exclusive:
-    - required_exclusive_forward: True
+    - required_exclusive_forward: true
     - required_exclusive_reverse:
   name: ModuleOne
 - arguments:
@@ -16,7 +16,7 @@ modules:
   - optional_infile: optionalinfile3.txt
   - optional_outfile: optionaloutfile3.txt
   - exclusive:
-    - optional_exclusive_forward: True
+    - optional_exclusive_forward: true
     - optional_exclusive_reverse:
 - arguments:
   - infile: infile3.txt
