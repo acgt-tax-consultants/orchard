@@ -32,7 +32,9 @@ modules:
     command: -d
   optionals:
   - name: optional_infile
+    command: --optin
   - name: optional_outfile
+    command: --optout
   - exclusive:
     - name: optional_exclusive_forward
       command: --optional_exclusive_forward
