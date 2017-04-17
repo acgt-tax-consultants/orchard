@@ -4,18 +4,6 @@
 [![Build Status](https://travis-ci.org/acgt-tax-consultants/orchard.svg?branch=master)](https://travis-ci.org/acgt-tax-consultants/orchard) [![Coverage Status](https://coveralls.io/repos/github/acgt-tax-consultants/orchard/badge.svg?branch=master)](https://coveralls.io/github/acgt-tax-consultants/orchard?branch=master)
 
 
-### Basic Luigi Commands
-
-```
-luigid - runs the gui through local host
-    just type on browser (to access): localhost:8082
-
-Running:
-    python fileWithModule.py moduleName --parameterName1 parameterName1Value
-                                        --parameterName2 parameterName2Value...
-```
-
-
 ### Installation
 ###### (Development mode [after setting up your environment](https://github.com/acgt-tax-consultants/gitting-started)):  
 
@@ -39,8 +27,11 @@ In a separate tab
 
 ```bash
 $ cd example
-$ orchard build test.yml -o out.py
-$ orchard launch out.py ModuleThree
+$ orchard template link.yaml
+# Fill in the configuration file that was generated using the first infile as
+# 'test_files/a.txt'
+$ orchard build link.yaml config.yaml
+$ orchard launch test.py ModuleThree  # This will eventually not be necessary
 ```
 
 [1]: images/logo.png
