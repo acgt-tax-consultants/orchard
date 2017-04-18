@@ -5,10 +5,11 @@
 #
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
+import copy
+import os
+from pathlib import Path
 
 import yaml
-from pathlib import Path
-import os
 
 
 # Gets a named module from a link or config file
@@ -202,6 +203,7 @@ def branch_compare(config_file_data, branchconfig, dep_struct, link_file_data):
 # and updating the passed config_file_data to meet any new branching
 # requirements.
 def branching(config_file_data, link_file_data, workspace_path):
+    config_file_data = copy.deepcopy(config_file_data)
     # First build the dependency structure for use in later calls
     dep_struct = build_dep_struct(link_file_data)
     # Get the branchlog file
@@ -214,7 +216,7 @@ def branching(config_file_data, link_file_data, workspace_path):
             logdata = {1: config_file_data}
             yaml.safe_dump(logdata, logfile, default_flow_style=False)
             insert_branch_into_config(config_file_data, 1, dep_struct)
-            return
+            return config_file_data
 
     # If we made it here a branchlog file exists, so read it in
     with open(work_path, 'r') as lg:
@@ -232,7 +234,7 @@ def branching(config_file_data, link_file_data, workspace_path):
         # already exists in the log
         if perfect_branch:
             insert_branch_into_config(config_file_data, branch, dep_struct)
-            return
+            return config_file_data
         # Else see if the branch that we found matches our new one better than
         # our current best fit matches
         if len(temp_matching) > len(branch_matching):
@@ -276,7 +278,7 @@ def branching(config_file_data, link_file_data, workspace_path):
     # Once we've generated all of the requisite symlinks we can just update
     # the paths in our new config data structure and we're done branching
     insert_branch_into_config(config_file_data, new_branch, dep_struct)
-
+    return config_file_data
 # dat = yaml.load(open("data/BranchingExampleConfig.yaml").read())
 # linkdat = yaml.load(open("data/link.yaml").read())
 # branching(dat, linkdat, "../OrchardTestStruct")
