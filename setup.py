@@ -12,7 +12,7 @@ with open("README.md") as fh:
     long_description = fh.read()
 
 setup(
-    name='orchard',
+    name='ACGTorchard',
     version='0.0.1',
     long_description=long_description,
     description='A pipeline management generation tool',
