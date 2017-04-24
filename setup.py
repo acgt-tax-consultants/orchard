@@ -13,7 +13,6 @@ with open("README.md") as fh:
 
 setup(
     name='ACGTorchard',
-    packages=['ACGTorchard'],
     version='0.0.2',
     long_description=long_description,
     description='A pipeline management generation tool',
