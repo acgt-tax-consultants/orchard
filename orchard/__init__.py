@@ -8,4 +8,4 @@
 
 import pkg_resources
 
-__version__ = pkg_resources.get_distribution('orchard').version
+__version__ = pkg_resources.get_distribution('nau-orchard').version

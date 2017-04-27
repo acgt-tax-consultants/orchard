@@ -8,13 +8,15 @@
 
 from setuptools import find_packages, setup
 
-with open("README.md") as fh:
-    long_description = fh.read()
-
 setup(
-    name='orchard',
+    name='nau-orchard',
     version='0.0.1',
-    long_description=long_description,
+    description='A pipeline management generation tool',
+    author='ACGT Tax. Consultants',
+    author_email='blazer@nau.edu',
+    url='https://github.com/acgt-tax-consultants/orchard',
+    download_url=('https://github.com/acgt-tax-consultants/orchard/archive/0.1'
+                  '.tar.gz'),
     packages=find_packages(),
     package_data={'orchard': ['_data/*']},
     install_requires=['luigi', 'jinja2', 'click', 'pyyaml'],
