@@ -19,7 +19,8 @@ setup(
     author='ACGT Tax. Consultants',
     author_email='blazer@nau.edu',
     url='https://github.com/acgt-tax-consultants/orchard',
-    download_url='https://github.com/acgt-tax-consultants/orchard/archive/0.1.tar.gz',
+    download_url="""https://github.com/acgt-tax-consultants/
+        orchard/archive/0.1.tar.gz""",
     packages=find_packages(),
     package_data={'orchard': ['_data/*']},
     install_requires=['luigi', 'jinja2', 'click', 'pyyaml'],
