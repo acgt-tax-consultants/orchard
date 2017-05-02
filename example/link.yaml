@@ -10,6 +10,7 @@ modules:
   - name: outfile
     command: --out
     is_branch: false
+    is_dyn_path: true
   - name: digit
     command: -d
   - exclusive:
@@ -25,14 +26,18 @@ modules:
     - ModuleOne
   arguments:
   - name: infile
+    is_dyn_path: true
   - name: outfile
     command: --out
     is_branch: false
+    is_dyn_path: true
   - name: digit
     command: -d
   optionals:
   - name: optional_infile
+    is_dyn_path: true
   - name: optional_outfile
+    is_dyn_path: true
   - exclusive:
     - name: optional_exclusive_forward
       command: --optional_exclusive_forward
@@ -46,7 +51,9 @@ modules:
     - ModuleTwo
   arguments:
   - name: infile
+    is_dyn_path: true
   - name: outfile
+    is_dyn_path: true
     command: --out
     is_branch: false
   - name: digit

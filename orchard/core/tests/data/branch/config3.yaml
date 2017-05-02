@@ -21,5 +21,5 @@ modules:
 - arguments:
   - infile: c.txt
   - outfile: d.txt
-  - digit: 9
+  - digit: 14
   name: ModuleThree

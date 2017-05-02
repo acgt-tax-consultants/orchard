@@ -10,7 +10,7 @@ modules:
 - arguments:
   - infile: b.txt
   - outfile: c.txt
-  - digit: 11
+  - digit: 12
   name: ModuleTwo
   optionals:
   - optional_infile:

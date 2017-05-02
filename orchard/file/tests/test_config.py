@@ -41,7 +41,7 @@ class TestConfigFile(unittest.TestCase):
         self.yaml_file.flush()
 
     def test_creation(self):
-        config_file = ConfigFile(self.yaml_file.name)
+        config_file = ConfigFile(self.yaml_file.name, True)
 
         self.assertIsInstance(config_file, ConfigFile)
         self.assertEqual(len(config_file.modules), 3)

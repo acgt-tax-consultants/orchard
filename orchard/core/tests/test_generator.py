@@ -24,7 +24,7 @@ class TestGenerator(unittest.TestCase):
         config_path = os.path.join(FILES, 'config.yaml')
 
         link_file = LinkFile(link_path)
-        config_file = ConfigFile(config_path)
+        config_file = ConfigFile(config_path, True)
 
         with tempfile.NamedTemporaryFile('w+') as fh:
             generate_luigi(config_file, link_file, fh.name)

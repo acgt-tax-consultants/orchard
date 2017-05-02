@@ -12,21 +12,26 @@ import yaml
 
 
 class YAMLFile:
+    # self.modules - a list of Module Class objects for each module
+    # self.data - a collection that contains the raw yaml dictionary
+
+    # Contains number of Module Class objects
     modules = None
 
     def __init__(self, filepath):
-        self.data = collections.defaultdict(list)
+        data = collections.defaultdict(list)
         with open(filepath) as fh:
             try:
-                self.data.update(yaml.load(fh))
+                data.update(yaml.load(fh))
             except Exception as e:
                 raise RuntimeError('The link file is not a valid yaml format.')
 
-        modules = self.data.get('modules')
+        modules = data.get('modules')
         if modules:
             self.modules = []
             self._add_modules(modules)
 
+    # Gets the module object with the matching module name
     def get_module_data(self, module_name):
         try:
             module, = filter(lambda x: x.name == module_name, self.modules)
@@ -35,6 +40,7 @@ class YAMLFile:
                              'for module: %s.' % module_name) from None
         return module
 
+    # Writes the yaml-file data out to the given filepath
     def write(self, data, filepath):
         def _add_repr(dumper, value):
             return dumper.represent_scalar(u'tag:yaml.org,2002:null', '')

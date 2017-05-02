@@ -58,16 +58,12 @@ def build(link_file_path, config_file_path, output):
 
     try:
         link_file = LinkFile(link_file_path)
-        config_file = ConfigFile(config_file_path)
+        config_file = ConfigFile(config_file_path, True)
         if validate(link_file_path, config_file_path):
             click.secho('Invalid configuration file.', fg='red', err=True)
             click.get_current_context().exit(1)
 
-        # TODO: REMOVE THIS AWFUL HACK
-        with open(link_file_path) as fh1, open(config_file_path) as fh2:
-            result = branching(yaml.load(fh2.read()),
-                               yaml.load(fh1.read()),
-                               os.getcwd())
+        config_file = branching(config_file, link_file, os.getcwd())
 
         def _add_repr(dumper, value):
             return dumper.represent_scalar(u'tag:yaml.org,2002:null', '')
@@ -75,9 +71,10 @@ def build(link_file_path, config_file_path, output):
         yaml.SafeDumper.add_representer(type(None), _add_repr)
 
         with open('blah.yaml', 'w+') as fh:
-            yaml.safe_dump(result, fh, default_flow_style=False)
+            yaml.safe_dump(config_file.get_yaml(), fh,
+                           default_flow_style=False)
 
-        config_file = ConfigFile('blah.yaml')
+        config_file = ConfigFile('blah.yaml', True)
         generate_luigi(config_file, link_file)
     except (ValueError, RuntimeError) as e:
         click.secho(str(e), fg='red', err=True, bold=True)

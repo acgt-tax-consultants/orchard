@@ -1,10 +1,16 @@
+config:
+  pipeline_api_version: 1
+  luigi_scheduler_ip: 127.0.0.1
+  luigi_scheduler_port: 8082
 modules:
 - name: ModuleOne
+  executable_path: ./module1
   arguments:
   - name: infile
   - name: outfile
     command: --out
-    isBranch: true
+    is_branch: false
+    is_dyn_path: true
   - name: digit
     command: -d
   - exclusive:
@@ -15,32 +21,40 @@ modules:
       command: --required_exclusive_reverse
       isFlag: true
 - name: ModuleTwo
+  executable_path: ./module2
   dependencies:
     - ModuleOne
   arguments:
   - name: infile
+    is_dyn_path: true
   - name: outfile
     command: --out
-    isBranch: true
+    is_branch: false
+    is_dyn_path: true
   - name: digit
     command: -d
   optionals:
   - name: optional_infile
+    is_dyn_path: true
   - name: optional_outfile
+    is_dyn_path: true
   - exclusive:
     - name: optional_exclusive_forward
       command: --optional_exclusive_forward
-      isFlag: false
+      isFlag: true
     - name: optional_exclusive_reverse
       command: --optional_exclusive_reverse
       isFlag: true
 - name: ModuleThree
+  executable_path: ./module3
   dependencies:
     - ModuleTwo
   arguments:
   - name: infile
+    is_dyn_path: true
   - name: outfile
+    is_dyn_path: true
     command: --out
-    isBranch: false
+    is_branch: false
   - name: digit
     command: -d
