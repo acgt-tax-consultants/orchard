@@ -40,7 +40,7 @@ def generate_luigi(config_file, link_file, dest="test.py"):
         hash_ = hashlib.md5(module.__repr__().encode('utf-8')).hexdigest()
 
         fh.write('    def on_success(self):\n')
-        fh.write('        with self.output().open() as fh:\n')
+        fh.write('        with self.output().open("w") as fh:\n')
         fh.write('            fh.write("Done")\n\n')
         fh.write("    def output(self):\n")
         fh.write("        return luigi.LocalTarget('.%s')" % hash_)
