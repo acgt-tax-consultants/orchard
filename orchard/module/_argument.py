@@ -29,7 +29,7 @@ class Argument:
         self.command = data.get('command')
         self.value = data.get('value')
         # Optional data flags
-        tmp = data.get('isFlag')
+        tmp = data.get('is_flag')
         if tmp is True:
             self.is_flag = True
         tmp = data.get('is_branch')

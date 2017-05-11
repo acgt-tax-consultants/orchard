@@ -49,6 +49,12 @@ class Module:
                 if argument_link_data.command:
                     commands.append(argument_link_data.command)
                 if not argument.is_flag:
+                    if type(argument.value) == str:
+                        break_apart = argument.value.split(' ')
+                        if len(break_apart) > 1:
+                            for i in break_apart:
+                                commands.append(i)
+                            continue
                     commands.append(argument.value)
             elif isinstance(argument, Exclusive):
                 selected = argument.get_selected()

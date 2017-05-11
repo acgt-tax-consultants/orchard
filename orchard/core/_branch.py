@@ -19,7 +19,7 @@ def insert_branch_into_path(pathstring, branchnum):
 
 def branching(config_file, link_file, workspace_path):
     # Get the branchlog file
-    work_path = Path(workspace_path) / "branchlog.yaml"
+    work_path = Path(workspace_path) / ".branchlog.yaml"
     # If no branchlog file exists then this is a brand new workspace, so
     # make a new logdata file and a new branch folder
     if not work_path.is_file():

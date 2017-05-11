@@ -11,6 +11,7 @@
 # will generate a luigi file named test.py
 # ----------------------------------------------------------------------------
 
+import hashlib
 
 def generate_luigi(config_file, link_file, dest="test.py"):
 
@@ -33,16 +34,21 @@ def generate_luigi(config_file, link_file, dest="test.py"):
             fh.write("        return %s\n\n" % ', '.join(dependencies))
 
         fh.write('    def program_args(self):\n')
-        fh.write('        return %s\n' %
+        fh.write('        return %s\n\n' %
                  module.get_command_line_args(link_file))
+        hash_ = hashlib.md5(module.__repr__().encode('utf-8')).hexdigest()
 
-        fh.write("\n")
+        fh.write('    def on_success(self):\n')
+        fh.write('        with self.output().open() as fh:\n')
+        fh.write('            fh.write("Done")\n\n')
         fh.write("    def output(self):\n")
-        fh.write("        return luigi.LocalTarget(")
-        for argument in module.arguments:
-            if argument.name == 'outfile':
-                fh.write('\'' + argument.value + '\')\n')
+        fh.write("        return luigi.LocalTarget('.%s')" % hash_)
         fh.write("\n\n")
+
+    fh.write('class wrapper(luigi.WrapperTask):\n')
+    fh.write('    def requires(self):\n')
+    fh.write('        return (%s)\n\n' % ', '.join(['%s()' % i.name for i in config_file.modules]))
+
 
     fh.write("if __name__ == '__main__':\n")
     fh.write("    luigi.run()\n")

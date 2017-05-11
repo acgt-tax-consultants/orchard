@@ -29,7 +29,7 @@ class TestGenerator(unittest.TestCase):
             branching(config_file, link_file, tmp)
 
             self.assertTrue(
-                os.path.exists(os.path.join(tmp, 'branchlog.yaml')))
+                os.path.exists(os.path.join(tmp, '.branchlog.yaml')))
             self.assertTrue(os.path.exists(os.path.join(tmp, '1')))
 
     def test_pass_perfect(self):
