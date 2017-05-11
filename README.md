@@ -31,7 +31,7 @@ $ orchard template link.yaml
 # Fill in the configuration file that was generated using the first infile as
 # 'test_files/a.txt'
 $ orchard build link.yaml config.yaml
-$ orchard launch test.py ModuleThree  # This will eventually not be necessary
+$ orchard launch test.py
 ```
 
 [1]: images/logo.png

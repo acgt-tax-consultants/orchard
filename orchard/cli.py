@@ -23,9 +23,8 @@ def orchard():
 
 @orchard.command()
 @click.argument('filepath', type=click.Path(exists=True))
-@click.argument('module')
-def launch(filepath, module):
-    subprocess.run('python %s %s' % (filepath, module), shell=True)
+def launch(filepath):
+    subprocess.run('python %s wrapper' % filepath, shell=True)
 
 
 @orchard.command()

@@ -32,10 +32,10 @@ class TestLinkFile(unittest.TestCase):
             '  - exclusive:\n' \
             '    - name: required_exclusive_forward\n' \
             '      command: --required_exclusive_forward\n' \
-            '      isFlag: true\n' \
+            '      is_flag: true\n' \
             '    - name: required_exclusive_reverse\n' \
             '      command: --required_exclusive_reverse\n' \
-            '      isFlag: true\n'
+            '      is_flag: true\n'
 
         self.yaml_file = tempfile.NamedTemporaryFile('w+')
         self.yaml_file.write(yaml_text)

@@ -16,10 +16,10 @@ modules:
   - exclusive:
     - name: required_exclusive_forward
       command: --required_exclusive_forward
-      isFlag: true
+      is_flag: true
     - name: required_exclusive_reverse
       command: --required_exclusive_reverse
-      isFlag: true
+      is_flag: true
 - name: ModuleTwo
   executable_path: ./module2
   dependencies:
@@ -41,10 +41,10 @@ modules:
   - exclusive:
     - name: optional_exclusive_forward
       command: --optional_exclusive_forward
-      isFlag: true
+      is_flag: true
     - name: optional_exclusive_reverse
       command: --optional_exclusive_reverse
-      isFlag: true
+      is_flag: true
 - name: ModuleThree
   executable_path: ./module3
   dependencies:
