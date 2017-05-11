@@ -25,7 +25,7 @@ class TestCFR(unittest.TestCase):
 
         result = validate(link_path, config_path)
 
-        self.assertEqual(result, 0)
+        self.assertTrue(result)
 
     def test_pass_optional(self):
         # Tests a passing scenario with optional
@@ -35,7 +35,7 @@ class TestCFR(unittest.TestCase):
 
         result = validate(link_path, config_path)
 
-        self.assertEqual(result, 0)
+        self.assertTrue(result)
 
     def test_pass_optional_exlcusive(self):
         # Tests a passing scenario with
@@ -45,16 +45,15 @@ class TestCFR(unittest.TestCase):
 
         result = validate(link_path, config_path)
 
-        self.assertEqual(result, 0)
+        self.assertTrue(result)
 
     def test_error_everything(self):
         # Test that error value is received empty.
         link_path = os.path.join(FILES, 'link.yaml')
         config_path = os.path.join(FILES, 'config_fail_1.yaml')
 
-        result = validate(link_path, config_path)
-
-        self.assertEqual(result, 1)
+        with self.assertRaisesRegex(ValueError, 'failed'):
+            validate(link_path, config_path)
 
     def test_error_required(self):
         # Test that error value is received when missing
@@ -64,13 +63,12 @@ class TestCFR(unittest.TestCase):
         config_path_2 = os.path.join(FILES, 'config_fail_2_2.yaml')
         config_path_3 = os.path.join(FILES, 'config_fail_2_3.yaml')
 
-        result_1 = validate(link_path, config_path_1)
-        result_2 = validate(link_path, config_path_2)
-        result_3 = validate(link_path, config_path_3)
-
-        self.assertEqual(result_1, 1)
-        self.assertEqual(result_2, 1)
-        self.assertEqual(result_3, 1)
+        with self.assertRaisesRegex(ValueError, 'failed'):
+            validate(link_path, config_path_1)
+        with self.assertRaisesRegex(ValueError, 'failed'):
+            validate(link_path, config_path_2)
+        with self.assertRaisesRegex(ValueError, 'failed'):
+            validate(link_path, config_path_3)
 
     def test_error_required_exlusive(self):
         # Test that error value is received when
@@ -78,9 +76,8 @@ class TestCFR(unittest.TestCase):
         link_path = os.path.join(FILES, 'link.yaml')
         config_path = os.path.join(FILES, 'config_fail_3.yaml')
 
-        result = validate(link_path, config_path)
-
-        self.assertEqual(result, 1)
+        with self.assertRaisesRegex(ValueError, 'provided'):
+            validate(link_path, config_path)
 
     def test_error_optional_exclusive(self):
         # Test that error value is received when
@@ -88,9 +85,8 @@ class TestCFR(unittest.TestCase):
         link_path = os.path.join(FILES, 'link.yaml')
         config_path = os.path.join(FILES, 'config_fail_4.yaml')
 
-        result = validate(link_path, config_path)
-
-        self.assertEqual(result, 1)
+        with self.assertRaisesRegex(ValueError, 'provided'):
+            validate(link_path, config_path)
 
     def test_error_exclusive(self):
         # Test that error value is received when
@@ -98,9 +94,8 @@ class TestCFR(unittest.TestCase):
         link_path = os.path.join(FILES, 'link.yaml')
         config_path = os.path.join(FILES, 'config_fail_5.yaml')
 
-        result = validate(link_path, config_path)
-
-        self.assertEqual(result, 1)
+        with self.assertRaisesRegex(ValueError, 'provide'):
+            validate(link_path, config_path)
 
     def test_error_missing_element(self):
         # Test that error value is received when
@@ -111,4 +106,4 @@ class TestCFR(unittest.TestCase):
 
         result = validate(link_path, config_path)
 
-        self.assertEqual(result, 1)
+        self.assertFalse(result)

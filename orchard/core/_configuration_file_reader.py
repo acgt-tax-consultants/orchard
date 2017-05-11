@@ -30,28 +30,9 @@ def validate(link_file_path, config_file_path):
         LinkFile(link_file_path).template_config_file(link_path)
         # Simplify the users filled out config file.
         # Simplify is described below.
-        error_checking = simplify(config_file_path, config_path)
-        if (error_checking == 1):
-            print("User failed to provide required input arguments")
-            return 1
-        elif (error_checking == 2):
-            print("User provided too many exclusive arguments")
-            return 1
-        elif (error_checking == 3):
-            print("User failed to provide a single exclusive argument")
-            return 1
-        else:
-            print("Configuration arguments were entered properly")
+        simplify(config_file_path, config_path)
 
-        print("Comparing files")
-        sameFile = filecmp.cmp(link_path, config_path)
-
-    if (sameFile):
-        print("Files have passed validation")
-        return 0
-    else:
-        print("Files have failed validation")
-        return 1
+        return filecmp.cmp(link_path, config_path)
 
 
 # simplify() takes the config file and 'simplifies' it down to a version that
@@ -88,7 +69,8 @@ def simplify(config_file_path, output_file_name):
             for key in arguments:
                 if key not in to_ignore:
                     if (arguments[key] is None):
-                        return 1
+                        raise ValueError(
+                            "User failed to provide required input arguments")
                     else:
                         arguments[key] = None
             # Check that only one exclusive argument has a value.
@@ -102,12 +84,14 @@ def simplify(config_file_path, output_file_name):
                         if (exclusives[key] is None):
                             pass
                         elif (exclusivity_test):
-                            return 2
+                            raise ValueError(
+                                "User provided too many exclusive arguments")
                         else:
                             exclusivity_test = True
                             exclusives[key] = None
                 if (not exclusivity_test):
-                    return 3
+                    raise ValueError(
+                        "User failed to provide a single exclusive argument")
         # If an optional argument has a value, delete the value from the file.
         for optionals in modules.get('optionals', []):
             for key in optionals:
@@ -125,7 +109,8 @@ def simplify(config_file_path, output_file_name):
                         if (exclusives[key] is None):
                             pass
                         elif (exclusivity_test):
-                            return 2
+                            raise ValueError(
+                                "User provided too many exclusive arguments")
                         else:
                             exclusivity_test = True
                             exclusives[key] = None

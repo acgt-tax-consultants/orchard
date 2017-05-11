@@ -13,6 +13,7 @@
 
 import hashlib
 
+
 def generate_luigi(config_file, link_file, dest="test.py"):
 
     fh = open(dest, 'w')
@@ -45,10 +46,10 @@ def generate_luigi(config_file, link_file, dest="test.py"):
         fh.write("        return luigi.LocalTarget('.%s')" % hash_)
         fh.write("\n\n")
 
+    all_modules = ', '.join(['%s()' % i.name for i in config_file.modules])
     fh.write('class wrapper(luigi.WrapperTask):\n')
     fh.write('    def requires(self):\n')
-    fh.write('        return (%s)\n\n' % ', '.join(['%s()' % i.name for i in config_file.modules]))
-
+    fh.write('        return (%s)\n\n' % all_modules)
 
     fh.write("if __name__ == '__main__':\n")
     fh.write("    luigi.run()\n")

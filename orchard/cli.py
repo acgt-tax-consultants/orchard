@@ -58,7 +58,7 @@ def build(link_file_path, config_file_path, output):
     try:
         link_file = LinkFile(link_file_path)
         config_file = ConfigFile(config_file_path, True)
-        if validate(link_file_path, config_file_path):
+        if not validate(link_file_path, config_file_path):
             click.secho('Invalid configuration file.', fg='red', err=True)
             click.get_current_context().exit(1)
 

@@ -11,7 +11,7 @@ import collections
 import yaml
 
 
-class LogFile():
+class LogFile:
     # self.configs - a list of Config_File Class objects for each branch
     # self.data - a collection that contains the raw yaml dictionary
     configs = {}
